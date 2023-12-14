@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네이버플레이스바로가기</title>
+</head>
+
+<script>
+    class UrlSchemeCaller {
+        windowState = 'focus';
+            
+        constructor() {
+            this.init();
+        }
+            
+        init() {
+            window.addEventListener('focus', () => {
+            this.windowState = 'focus';
+            });
+            
+            window.addEventListener('blur', () => {
+            this.windowState = 'blur';
+            });
+        }
+        
+        call(urlScheme, notInstalledCallback) {
+            location.href = urlScheme;
+            
+            setTimeout(() => {
+                if (this.windowState === 'focus') {
+                    // 앱이 설치되어 있지 않은 상태
+                    notInstalledCallback();
+                } 
+                }, 300);
+        }
+    }
+
+    window.urlSchemeCaller = new UrlSchemeCaller();
+    
+    const shoplist = {
+        "jamsilhp": "1686487894",
+        "fujistudio": "37593830",
+        "fujiphotostudio": "1507590843",
+        "hgddm":"1943778962",
+        "hpcnsajin":"1335141687"
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const shop = urlParams.get("shopname");
+
+
+    if (!shop) {
+        // location.href = "https://naver.com";
+        console.log("no shop");
+    } else {
+        urlSchemeCaller.call(`naversearchapp://inappbrowser?url=https%3A%2F%2Fm.place.naver.com%2Fplace%2F${shoplist[shop]}%2Freview%2F&target=new`, () => { 
+            console.log('');
+            location.href=`https://m.place.naver.com/place/${shoplist[shop]}/review/`;
+        });
+    }
+    
+
+</script>
+<body>
+    
+</body>
+</html>
