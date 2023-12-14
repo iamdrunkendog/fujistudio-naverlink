@@ -28,6 +28,7 @@
             location.href = urlScheme;
             
             setTimeout(() => {
+                location.href=`https://m.place.naver.com/place/${shoplist[shop]}/review/`;
                 if (this.windowState === 'focus') {
                     // 앱이 설치되어 있지 않은 상태
                     notInstalledCallback();
